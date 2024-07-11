@@ -14,6 +14,7 @@ import zlib
 import renpy.ast
 import renpy.sl2.slast
 import renpy.util
+import platform
 
 RPYC2_HEADER = b"RENPY RPC2"
 
@@ -150,7 +151,6 @@ def except_handler(exc_handler):
     sys.excepthook = exc_handler
     yield
     sys.excepthook = sys.__excepthook__
-
 def err(type, value, traceback):
     "New type of exception."
     print(': '.join([str(type.__name__), str(value)]))
@@ -160,7 +160,15 @@ def err(type, value, traceback):
 def errwait():
     "A simple 1-second pause after outputting an error."
     time.sleep(1)
+def wait(i):
+    "A simple X-second pause."
+    time.sleep(i)
 
 def clear():
     "Clears the command line."
-    os.system('cls')
+    if platform.system() == "Windows":
+        os.system('cls')
+    elif platform.system() == "Linux":
+        os.system('clear')
+    else:
+        pass
