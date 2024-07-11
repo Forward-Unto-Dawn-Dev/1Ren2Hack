@@ -15,6 +15,8 @@ import renpy.ast
 import renpy.sl2.slast
 import renpy.util
 import platform
+import utils.rpatool as rpa
+from datetime import datetime as date
 
 RPYC2_HEADER = b"RENPY RPC2"
 
@@ -144,6 +146,31 @@ class Path():
         if not check_needed:
             with except_handler(err):
                 raise Exception("I can't find the novell in this folder as there is no 'renpy', 'lib' and 'game' folders. So you're either trying to open your Ren'Py project, or this folder is not a novell folder. Try again.")
+
+class IANB():
+    def opt_check(var):
+        opt_build_name = '*1R2H* Unknown value.'
+        opt_config_name = '*1R2H* Unknown value.'
+        opt_config_version = '*1R2H* Unknown value.'
+        opt_config_developer = '*1R2H* Unknown value.'
+        for i in var:
+            i = i.split('=')
+            if 'define build.name' in i[0]:
+                opt_build_name = i[1]
+                opt_build_name = opt_build_name.strip()
+            if 'define config.name' in i[0]:
+                opt_config_name = i[1]
+                opt_config_name = opt_config_name.strip()
+            if 'define config.version' in i[0]:
+                opt_config_version = i[1]
+                opt_config_version = opt_config_version.strip()
+            if 'define config.developer' in i[0]:
+                opt_config_developer = i[1]
+                opt_config_developer = opt_config_developer.strip()
+        return [opt_build_name,
+                opt_config_name,
+                opt_config_version,
+                opt_config_developer]
 
 @contextmanager
 def except_handler(exc_handler):
