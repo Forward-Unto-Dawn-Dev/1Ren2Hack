@@ -67,7 +67,7 @@ while True:
                 options_result = options.splitlines()
                 options_result = IANB.opt_check(options_result)
         except:
-            IANB.opt_check('0')
+            options_result = IANB.opt_check('0')
         if os.path.exists(dir+'/renpy/common/00console_RulesWereMadeToBeBroken.rpy'):
             options_result[3] = '*1R2H* Hacked.'
         
