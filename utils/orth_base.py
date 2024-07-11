@@ -15,6 +15,7 @@ import renpy.ast
 import renpy.sl2.slast
 import renpy.util
 import platform
+import shutil
 import utils.rpatool as rpa
 from datetime import datetime as date
 
