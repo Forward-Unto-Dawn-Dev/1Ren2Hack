@@ -33,14 +33,16 @@ if result == '0':
     if os.path.exists(dir+'/game/options.rpyc'):
         options = RPYCD.decompile_file_return(dir+'/game/options.rpyc')
         options = options.splitlines()
-        options.append('init define config.name = "1234"')
         for i in options:
             if re.search('config.name',i):
-                opt_build_name = i
-                opt_build_name = re.search('config.name = "(.*?)"', opt_build_name).group(1)
-        print(opt_build_name)
+                opt_config_name = i
+                opt_config_name = re.search('config.name = "(.*?)"', opt_config_name).group(1)
     else:
-        options = 'Unknown Novell'
+        opt_config_name = 'Unknown Novell'
+    print('----------------------------------------------------------------')
+    print()
+    print(f'NOVELL NAME: {opt_config_name}')
+    print()
     print('----------------------------------------------------------------')
 
 exit()
