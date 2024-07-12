@@ -27,21 +27,21 @@ while True:
 
     if result == '0':
         print('Select path to novell.')
-        dir = Path.getpath()
-        if dir == '':
+        gamedir = Path.getpath()
+        if gamedir == '':
             continue
-        Path.checkpath(dir)
-        dir_flist = os.listdir(dir+'/game/')
+        Path.checkpath(gamedir)
+        dir_flist = os.listdir(gamedir+'/game/')
         print('...')
         print('')
         try:
-            if os.path.exists(dir+'/game/options.rpy'):
-                options = open(dir+'/game/options.rpy').read()
+            if os.path.exists(gamedir+'/game/options.rpy'):
+                options = open(gamedir+'/game/options.rpy').read()
                 options_split = options.splitlines()
                 options_result = IANB.opt_check(options_split)
-            elif os.path.exists(dir+'/game/options.rpyc'):
+            elif os.path.exists(gamedir+'/game/options.rpyc'):
                 try:
-                    options = RPYCD.decompile_file_return(dir+'/game/options.rpyc')
+                    options = RPYCD.decompile_file_return(gamedir+'/game/options.rpyc')
                 except Exception as e:
                     with except_handler(err):
                         raise Exception('Decompile error: {0}'.format(e))
@@ -51,10 +51,10 @@ while True:
                 for i in dir_flist:
                     if i.endswith('.rpa'):
                         try:
-                            options = rpa.RenPyArchive(dir+'/game/'+i,version=3.2).read("options.rpyc")
+                            options = rpa.RenPyArchive(gamedir+'/game/'+i,version=3.2).read("options.rpyc")
                         except Exception as e:
                             pass
-                with open("cache/temp_{0}.rpyc".format(date.now().strftime('%Y-%m-%d %H:%M:%S').strip().replace(':','-')), "wb") as f:
+                with open("cache/temp_{0}.rpyc".format(datenow), "wb") as f:
                     f.write(options)
                     fname = f.name
                     f.close()
@@ -68,7 +68,7 @@ while True:
                 options_result = IANB.opt_check(options_result)
         except:
             options_result = IANB.opt_check('0')
-        if os.path.exists(dir+'/renpy/common/00console_RulesWereMadeToBeBroken.rpy'):
+        if os.path.exists(gamedir+'/renpy/common/00console_RulesWereMadeToBeBroken.rpy'):
             options_result[3] = '*1R2H* Hacked.'
         
         print('----------------------------------------------------------------')
@@ -83,19 +83,13 @@ while True:
         print()
         wait(1)
         if options_result[3] in ['False','*1R2H* Unknown value.']:
-            print('Are you want to: Enable Developer Mode? (y/n)')
+            print('Are you want to: Enable Developer Mode? (y/n)\nWARNING: Save the "renpy" folder as a backup before patching! The patch will overwrite the files, which may cause the engine files to crash.')
             answer = input().lower()
             if answer == 'y':
-                console = dir+'/renpy/common/00console.rpy'
-                console_c = dir+'/renpy/common/00console.rpyc'
-                if os.path.exists(console):
-                    os.remove(console)
-                if os.path.exists(console_c):
-                    os.remove(console_c)
-                shutil.copy('utils/00console.rpy',dir+'/renpy/common/00console_RulesWereMadeToBeBroken.rpy')
-                print('Done.')
-            else:
-                pass
+                CHP(gamedir, options_result).hack()
+                print("\nDone.\n\nIf for some reason the game doesn't work (won't start, gives an error, etc.), rename the file from the backup folder with a name starting with '00console' to '00console.rpy', then move the file to the following path in the game:\n\nrenpy/common.")
+        else:
+            pass
         wait(1)
         print('Are you want to return back? (y/n)')
         answer = input().lower()

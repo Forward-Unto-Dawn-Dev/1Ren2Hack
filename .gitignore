@@ -2,3 +2,4 @@
 *.rpyc
 *.pyo
 /.vscode
+/backup

@@ -20,6 +20,7 @@ import utils.rpatool as rpa
 from datetime import datetime as date
 
 RPYC2_HEADER = b"RENPY RPC2"
+datenow = date.now().strftime('%Y-%m-%d %H:%M:%S').strip().replace(':','-')
 
 class RPYCD():
     def write_file(filename: str, data: str):
@@ -172,6 +173,48 @@ class IANB():
                 opt_config_name,
                 opt_config_version,
                 opt_config_developer]
+
+class CHP():
+    """
+    Console Hacking Patch is the first 1Ren2Hack technology
+    that allows you to hack absolutely any novel with a Developer Console patch.
+    """
+    def __init__(self, gamedir, options_result):
+        self.gamedir = gamedir
+        self.console = '{0}/renpy/common/00console.rpy'.format(gamedir)
+        self.console_c = '{0}/renpy/common/00console.rpyc'.format(gamedir)
+        self.options_result = options_result
+        self.newcmd = """
+    @command(_("onerentohack: send hacking method output"))
+    def onerentohack(l):
+        return 'Thank you for using 1Ren2Hack. Lead, suck my dick! (By: tetyastan. vk.com/tetyastan)'\n"""
+    def hack(self):
+        console = '{0}/renpy/common/00console.rpy'.format(self.gamedir)
+        console_c = '{0}/renpy/common/00console.rpyc'.format(self.gamedir)
+        console_rename = '{0}/renpy/common/00console_RulesWereMadeToBeBroken.rpy'.format(self.gamedir)
+        if os.path.exists(console):
+            shutil.copy(console, "backup/00console_{0}_{1}.rpy".format(self.options_result[0].strip().replace('"',''),datenow))
+            if os.path.exists(console_c):
+                os.remove(console_c)
+            self._consolePatch()
+        elif os.path.exists(console_c):
+            console_c_dcp = RPYCD.decompile_file_return(console_c)
+            shutil.copy(console_c, "backup/00console_{0}_{1}_decompiled.rpy".format(self.options_result[0].strip().replace('"',''),datenow))
+            os.remove(console_c)
+            with open(console, 'w') as f:
+                f.write(console_c_dcp)
+            self._consolePatch()
+        os.rename(console,console_rename)
+    def _consolePatch(self):
+        with open(self.console) as f:
+            lines = f.readlines()
+        with open(self.console,"w") as f:
+            for line in lines:
+                if not re.search('if config.developer or config.console:',line):
+                    f.write(line)
+                if re.search('return "Saved slot',line):
+                    f.write(self.newcmd)
+            f.close()
 
 @contextmanager
 def except_handler(exc_handler):
