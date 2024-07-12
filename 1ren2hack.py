@@ -36,14 +36,14 @@ while True:
                 else:
                     print('Select path to novell.')
                     gamedir = Path.getpath()
-                    if gamedir == '':
+                    if gamedir == '' or gamedir == ():
                         answer_0 = False
                         continue
         except:
             pass
         print('Select path to novell.')
         gamedir = Path.getpath()
-        if gamedir == '':
+        if gamedir == '' or gamedir == ():
             continue
         Path.checkpath(gamedir)
         dir_flist = os.listdir(gamedir+'/game/')
