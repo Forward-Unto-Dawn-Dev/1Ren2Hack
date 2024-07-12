@@ -28,10 +28,21 @@ while True:
         exit()
 
     if result == '0':
-        print('Select path to novell.')
-        gamedir = Path.getpath()
-        if gamedir == '':
-            continue
+        try:
+            if answer_0:
+                answer_0 = input('Do you want to use the last open path?\n')
+                if answer_0.lower() == 'y':
+                    pass
+                else:
+                    print('Select path to novell.')
+                    gamedir = Path.getpath()
+                    if gamedir == '':
+                        continue
+        except:
+            print('Select path to novell.')
+            gamedir = Path.getpath()
+            if gamedir == '':
+                continue
         Path.checkpath(gamedir)
         dir_flist = os.listdir(gamedir+'/game/')
         print('...')
@@ -108,6 +119,7 @@ while True:
         print('Are you want to return back? (y/n)')
         answer = input().lower()
         if answer == 'y':
+            answer_0 = True
             continue
         else:
             clear()

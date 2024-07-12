@@ -251,7 +251,6 @@ def errwait():
 def wait(i):
     "A simple X-second pause."
     time.sleep(i)
-
 def clear():
     "Clears the command line."
     if platform.system() == "Windows":
