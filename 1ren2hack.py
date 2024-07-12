@@ -30,7 +30,7 @@ while True:
     if result == '0':
         try:
             if answer_0:
-                answer_0 = input('Do you want to use the last open path?\n')
+                answer_0 = input('Do you want to use the last open path? (y/n)\n')
                 if answer_0.lower() == 'y':
                     pass
                 else:
