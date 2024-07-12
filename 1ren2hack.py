@@ -4,7 +4,7 @@ from utils.orth_base import *
 
 while True:
     clear()
-    ui = ['Information about novell build', 'Run novell build']
+    ui = ['Information about novell build (+ CHP Module)', 'Run novell build']
     func_enum = []
     func_names = []
 
@@ -16,8 +16,10 @@ while True:
         func_enum.append(x)
         func_names.append(i)
         print(f'    [{func_enum[x]}] {i}')
+    print()
+    print('    [SMTH ELSE] Exit program')
 
-    print('')
+    print()
     result = input()
     func_enum = str(func_enum)
 
@@ -33,12 +35,12 @@ while True:
         Path.checkpath(gamedir)
         dir_flist = os.listdir(gamedir+'/game/')
         print('...')
-        print('')
+        print()
         try:
             if os.path.exists(gamedir+'/game/options.rpy'):
                 options = open(gamedir+'/game/options.rpy').read()
                 options_split = options.splitlines()
-                options_result = IANB.opt_check(options_split)
+                options_result = VCHECK.opt_check(options_split)
             elif os.path.exists(gamedir+'/game/options.rpyc'):
                 try:
                     options = RPYCD.decompile_file_return(gamedir+'/game/options.rpyc')
@@ -46,7 +48,7 @@ while True:
                     with except_handler(err):
                         raise Exception('Decompile error: {0}'.format(e))
                 options_split = options.splitlines()
-                options_result = IANB.opt_check(options_split)
+                options_result = VCHECK.opt_check(options_split)
             else:
                 for i in dir_flist:
                     if i.endswith('.rpa'):
@@ -65,9 +67,9 @@ while True:
                         raise Exception('Decompile error: {0}'.format(e))
                 os.remove(fname)
                 options_result = options.splitlines()
-                options_result = IANB.opt_check(options_result)
+                options_result = VCHECK.opt_check(options_result)
         except:
-            options_result = IANB.opt_check('0')
+            options_result = VCHECK.opt_check('0')
         if os.path.exists(gamedir+'/renpy/common/00console_RulesWereMadeToBeBroken.rpy'):
             options_result[3] = '*1R2H* Hacked.'
         
@@ -86,8 +88,20 @@ while True:
             print('Are you want to: Enable Developer Mode? (y/n)\nWARNING: Save the "renpy" folder as a backup before patching! The patch will overwrite the files, which may cause the engine files to crash.')
             answer = input().lower()
             if answer == 'y':
+                if options_result[0] == '*1R2H* Unknown value.':
+                    options_result[0] = 'UNKNOWN_VALUE'
                 CHP(gamedir, options_result).hack()
-                print("\nDone.\n\nIf for some reason the game doesn't work (won't start, gives an error, etc.), rename the file from the backup folder with a name starting with '00console' to '00console.rpy', then move the file to the following path in the game:\n\nrenpy/common.")
+                print("""
+            Done!
+            
+            If for some reason the game doesn't work (won't start, gives an error, etc.):
+            
+            1. Rename the file from the backup folder with a name starting with '00console' to '00console.rpy'.
+            2. Move the file to the following path in the game:
+                    [ur_game_folder]/renpy/common.
+            3. Remove the files from the above directory:
+                00console_RulesWereMadeToBeBroken.rpy
+                00console_RulesWereMadeToBeBroken.rpyc (if exists)""")
         else:
             pass
         wait(1)

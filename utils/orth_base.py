@@ -138,6 +138,7 @@ class Path():
         path = askdirectory(parent=window, title='Select path')
         return path
     def checkpath(path):
+        "Checking the path for engine and novel files."
         needed = ['renpy','lib','game']
         dir = path
         if dir.endswith('game'):
@@ -149,7 +150,10 @@ class Path():
             with except_handler(err):
                 raise Exception("I can't find the novell in this folder as there is no 'renpy', 'lib' and 'game' folders. So you're either trying to open your Ren'Py project, or this folder is not a novell folder. Try again.")
 
-class IANB():
+class VCHECK():
+    """
+    VCHECK is a special function to check files for required variables.
+    """
     def opt_check(var):
         opt_build_name = '*1R2H* Unknown value.'
         opt_config_name = '*1R2H* Unknown value.'
@@ -183,28 +187,41 @@ class CHP():
         self.gamedir = gamedir
         self.console = '{0}/renpy/common/00console.rpy'.format(gamedir)
         self.console_c = '{0}/renpy/common/00console.rpyc'.format(gamedir)
+        self.console_rename = '{0}/renpy/common/00console_RulesWereMadeToBeBroken.rpy'.format(gamedir)
+        self.dev = '{0}/renpy/common/_developer/developer.rpym'.format(gamedir)
+        self.dev_rename = '{0}/renpy/common/_developer/developer.rpy'.format(gamedir)
+        self.dev_c = '{0}/renpy/common/_developer/developer.rpymc'.format(gamedir)
         self.options_result = options_result
         self.newcmd = """
     @command(_("onerentohack: send hacking method output"))
     def onerentohack(l):
         return 'Thank you for using 1Ren2Hack. Lead, suck my dick! (By: tetyastan. vk.com/tetyastan)'\n"""
+
     def hack(self):
-        console = '{0}/renpy/common/00console.rpy'.format(self.gamedir)
-        console_c = '{0}/renpy/common/00console.rpyc'.format(self.gamedir)
-        console_rename = '{0}/renpy/common/00console_RulesWereMadeToBeBroken.rpy'.format(self.gamedir)
-        if os.path.exists(console):
-            shutil.copy(console, "backup/00console_{0}_{1}.rpy".format(self.options_result[0].strip().replace('"',''),datenow))
-            if os.path.exists(console_c):
-                os.remove(console_c)
+        if os.path.exists(self.console):
+            shutil.copy(self.console, "backup/00console_{0}_{1}.rpy".format(self.options_result[0].strip().replace('"',''),datenow))
+            if os.path.exists(self.console_c):
+                os.remove(self.console_c)
             self._consolePatch()
-        elif os.path.exists(console_c):
-            console_c_dcp = RPYCD.decompile_file_return(console_c)
-            shutil.copy(console_c, "backup/00console_{0}_{1}_decompiled.rpy".format(self.options_result[0].strip().replace('"',''),datenow))
-            os.remove(console_c)
-            with open(console, 'w') as f:
+        elif os.path.exists(self.console_c):
+            console_c_dcp = RPYCD.decompile_file_return(self.console_c)
+            shutil.copy(self.console_c, "backup/00console_{0}_{1}_decompiled.rpy".format(self.options_result[0].strip().replace('"',''),datenow))
+            os.remove(self.console_c)
+            with open(self.console, 'w') as f:
                 f.write(console_c_dcp)
             self._consolePatch()
-        os.rename(console,console_rename)
+        os.rename(self.console,self.console_rename)
+        if os.path.exists(self.dev):
+            shutil.copy(self.dev, "backup/developer_{0}_{1}.rpy".format(self.options_result[0].strip().replace('"',''),datenow))
+            if os.path.exists(self.dev_c):
+                os.remove(self.dev_c)
+            os.rename(self.dev,self.dev_rename)
+        elif os.path.exists(self.dev_c):
+            dev_c_dcp = RPYCD.decompile_file_return(self.dev_c)
+            shutil.copy(self.dev_c, "backup/developer_{0}_{1}_decompiled.rpy".format(self.options_result[0].strip().replace('"',''),datenow))
+            os.remove(self.dev_c)
+            with open(self.dev_rename, 'w') as f:
+                f.write(dev_c_dcp)
     def _consolePatch(self):
         with open(self.console) as f:
             lines = f.readlines()
