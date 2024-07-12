@@ -17,3 +17,22 @@ If you're the kind of asshole who just wants to give yourself a shitload of affe
 BUT if you're the poor guy who lost his MAS save files (which is my friend for whom I created this project), you've come to the right place. This script will help you.
 
 **Thank you for using 1Ren2Hack!**
+
+# Guide
+
+## Modules & Techologies
+
+### 0. CHP
+
+Once the patch has been completed, go into the game and press Shift+O. If the console opens, the patch is successful!
+
+## CLI (Options)
+
+### 0. Information about novell build (+ CHP Module)
+
+1. Select the path to the root folder of the game (NOT the "game" folder or any other folder).
+2. Get information about the novel! :D
+3. If you want, you can use CHP technology to hack the developer console.
+
+#### WARNING: Even if the script gives you "Unknown value" in the "DEVELOPER MODE:" field, you can safely use the CHP technology. It will work.
+#### WARNING 2: If "*1R1H* Unknown value." is entered instead of the fields, the script was unable to output information about the selected novel.
