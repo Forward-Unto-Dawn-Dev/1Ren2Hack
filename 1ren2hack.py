@@ -63,10 +63,10 @@ while True:
                 for i in dir_flist:
                     if i.endswith('.rpa'):
                         try:
-                            options = rpa.RenPyArchive(gamedir+'/game/'+i,version=3.2).read("options.rpyc")
+                            options = rpa.RenPyArchive(gamedir+'/game/'+i).read("options.rpyc")
                         except Exception as e:
                             pass
-                with open("cache/temp_{0}.rpyc".format(datenow), "wb") as f:
+                with open("{0}/cache/temp_{1}.rpyc".format(os.path.dirname(__file__),datenow), "wb") as f:
                     f.write(options)
                     fname = f.name
                     f.close()
@@ -78,8 +78,8 @@ while True:
                 os.remove(fname)
                 options_result = options.splitlines()
                 options_result = VCHECK.opt_check(options_result)
-        except:
-            print(Exception)
+        except Exception as e:
+            print(e)
             options_result = VCHECK.opt_check('0')
         if os.path.exists(gamedir+'/renpy/common/00console_RulesWereMadeToBeBroken.rpy'):
             options_result[3] = '*1R2H* Hacked.'
