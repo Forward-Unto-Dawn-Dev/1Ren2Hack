@@ -3,3 +3,4 @@
 *.pyo
 /.vscode
 /backup/
+/devfiles

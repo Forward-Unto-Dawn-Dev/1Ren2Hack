@@ -11,9 +11,8 @@ import pickletools
 import re
 import struct
 import zlib
-import renpy.ast
-import renpy.sl2.slast
-import renpy.util
+import utils.RPYCDecompiler.ast as ast
+import utils.RPYCDecompiler.util as util
 import platform
 import shutil
 import utils.rpatool as rpa
@@ -68,7 +67,7 @@ class RPYCD():
         data = file.read(length)
         return zlib.decompress(data)
 
-    def load_file(filename, disasm: bool = False) -> renpy.ast.Node:
+    def load_file(filename, disasm: bool = False) -> ast.Node:
         "Load Ren'Py code from RPYC file and return AST tree."
 
         ext = os.path.splitext(filename)[1]
@@ -100,7 +99,7 @@ class RPYCD():
                 output_file, os.path.basename(input_file).removesuffix("c")
             )
         stmts = RPYCD.load_file(input_file)
-        code = renpy.util.get_code(stmts)
+        code = util.get_code(stmts)
         RPYCD.write_file(output_file, code)
 
     def decompile_file_return(input_file, output_file=None):
@@ -113,7 +112,7 @@ class RPYCD():
                 output_file, os.path.basename(input_file).removesuffix("c")
             )
         stmts = RPYCD.load_file(input_file)
-        code = renpy.util.get_code(stmts)
+        code = util.get_code(stmts)
         return code
 
     def decompile(input_path, output_path=None):

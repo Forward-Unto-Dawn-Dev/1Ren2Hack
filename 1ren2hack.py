@@ -28,26 +28,23 @@ while True:
         exit()
 
     if result == '0':
-        try:
-            if answer_0:
-                answer_0 = input('Do you want to use the last open path? (y/n)\n')
-                if answer_0.lower() == 'y':
+        if '_answer' and '_gamedir' in locals():
+            if _answer:
+                _answer = input('Do you want to use the last open path? (y/n)\n')
+                if _answer.lower() == 'y':
                     pass
                 else:
                     print('Select path to novell.')
                     gamedir = Path.getpath()
                     if gamedir == '' or gamedir == ():
-                        answer_0 = False
-                        continue
-        except:
-            pass
-        print('Select path to novell.')
-        gamedir = Path.getpath()
+                        gamedir = _gamedir
+        else:
+            print('Select path to novell.')
+            gamedir = Path.getpath()
         if gamedir == '' or gamedir == ():
             continue
         Path.checkpath(gamedir)
         dir_flist = os.listdir(gamedir+'/game/')
-        print('...')
         print()
         try:
             if os.path.exists(gamedir+'/game/options.rpy'):
@@ -105,23 +102,24 @@ while True:
                     options_result[0] = 'UNKNOWN_VALUE'
                 CHP(gamedir, options_result).hack()
                 print("""
-            Done!
-            
-            If for some reason the game doesn't work (won't start, gives an error, etc.):
-            
-            1. Rename the file from the backup folder with a name starting with '00console' to '00console.rpy'.
-            2. Move the file to the following path in the game:
-                    [ur_game_folder]/renpy/common.
-            3. Remove the files from the above directory:
-                00console_RulesWereMadeToBeBroken.rpy
-                00console_RulesWereMadeToBeBroken.rpyc (if exists)""")
+        Done!
+        
+        If for some reason the game doesn't work (won't start, gives an error, etc.):
+        
+        1. Rename the file from the backup folder with a name starting with '00console' to '00console.rpy'.
+        2. Move the file to the following path in the game:
+                [ur_game_folder]/renpy/common.
+        3. Remove the files from the above directory:
+            00console_RulesWereMadeToBeBroken.rpy
+            00console_RulesWereMadeToBeBroken.rpyc (if exists)""")
         else:
             pass
         wait(1)
         print('Are you want to return back? (y/n)')
         answer = input().lower()
         if answer == 'y':
-            answer_0 = True
+            _answer = True
+            _gamedir = gamedir
             continue
         else:
             clear()

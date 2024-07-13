@@ -1,2 +1,0 @@
-class ParameterizedText(object):
-    pass
