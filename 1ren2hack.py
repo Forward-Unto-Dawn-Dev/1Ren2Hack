@@ -56,7 +56,7 @@ while True:
                     options = RPYCD.decompile_file_return(gamedir+'/game/options.rpyc')
                 except Exception as e:
                     with except_handler(err):
-                        raise Exception('Decompile error: {0}'.format(e))
+                        raise Exception('(RPYC) Decompile error: {0}'.format(e))
                 options_split = options.splitlines()
                 options_result = VCHECK.opt_check(options_split)
             else:
@@ -74,7 +74,7 @@ while True:
                     options = RPYCD.decompile_file_return(fname)
                 except Exception as e:
                     with except_handler(err):
-                        raise Exception('Decompile error: {0}'.format(e))
+                        raise Exception('(RPA + RPYC) Decompile error: {0}'.format(e))
                 os.remove(fname)
                 options_result = options.splitlines()
                 options_result = VCHECK.opt_check(options_result)
