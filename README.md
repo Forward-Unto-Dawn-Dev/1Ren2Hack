@@ -18,6 +18,12 @@ BUT if you're the poor guy who lost his MAS save files (which is my friend for w
 
 **Thank you for using 1Ren2Hack!**
 
+# Requirements
+
+### Python >= 3.10
+### All other requirements:
+    python3 -m pip install -r requirements.txt
+
 # Guide
 
 ## Modules & Techologies
