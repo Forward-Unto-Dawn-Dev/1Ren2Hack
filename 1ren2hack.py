@@ -79,6 +79,7 @@ while True:
                 options_result = options.splitlines()
                 options_result = VCHECK.opt_check(options_result)
         except:
+            print(Exception)
             options_result = VCHECK.opt_check('0')
         if os.path.exists(gamedir+'/renpy/common/00console_RulesWereMadeToBeBroken.rpy'):
             options_result[3] = '*1R2H* Hacked.'
