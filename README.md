@@ -22,8 +22,9 @@ BUT if you're the poor guy who lost his MAS save files (which is my friend for w
 
 ## Modules & Techologies
 
-### 0. CHP
+### 0. CHP (Console Hacking Patch)
 
+A patch that allows you to hack the console of Developer Mode Ren'Py.
 Once the patch has been completed, go into the game and press Shift+O. If the console opens, the patch is successful!
 
 ## CLI (Options)
@@ -36,3 +37,8 @@ Once the patch has been completed, go into the game and press Shift+O. If the co
 
 #### WARNING: Even if the script gives you "Unknown value" in the "DEVELOPER MODE:" field, you can safely use the CHP technology. It will work.
 #### WARNING 2: If "*1R1H* Unknown value." is entered instead of the fields, the script was unable to output information about the selected novel.
+
+
+# TODO
+
+### Nothing here.
