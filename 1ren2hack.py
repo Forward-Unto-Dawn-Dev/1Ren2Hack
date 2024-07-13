@@ -4,7 +4,7 @@ from utils.orth_base import *
 
 while True:
     clear()
-    ui = ['Information about novell build (+ CHP Module)', 'Run novell build']
+    ui = ['Information about novell build (+ CHP Module)']
     func_enum = []
     func_names = []
 
