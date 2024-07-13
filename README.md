@@ -21,8 +21,7 @@ BUT if you're the poor guy who lost his MAS save files (which is my friend for w
 # Requirements
 
 ### Python >= 3.10
-### All other requirements:
-    python3 -m pip install -r requirements.txt
+### Tkinter (install on Linux/MacOS)
 
 # Guide
 
