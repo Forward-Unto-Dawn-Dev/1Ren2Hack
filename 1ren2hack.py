@@ -95,26 +95,7 @@ while True:
         print()
         print()
         wait(1)
-        if options_result[3] in ['False','*1R2H* Unknown value.']:
-            print('Are you want to: Enable Developer Mode? (y/n)\nWARNING: Save the "renpy" folder as a backup before patching! The patch will overwrite the files, which may cause the engine files to crash.')
-            answer = input().lower()
-            if answer == 'y':
-                if options_result[0] == '*1R2H* Unknown value.':
-                    options_result[0] = 'UNKNOWN_VALUE'
-                CHP(gamedir, options_result).hack()
-                print("""
-        Done!
-        
-        If for some reason the game doesn't work (won't start, gives an error, etc.):
-        
-        1. Rename the file from the backup folder with a name starting with '00console' to '00console.rpy'.
-        2. Move the file to the following path in the game:
-                [ur_game_folder]/renpy/common.
-        3. Remove the files from the above directory:
-            00console_RulesWereMadeToBeBroken.rpy
-            00console_RulesWereMadeToBeBroken.rpyc (if exists)""")
-        else:
-            pass
+        CHP(gamedir, options_result)
         wait(1)
         print('Are you want to return back? (y/n)')
         answer = input().lower()

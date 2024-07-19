@@ -195,13 +195,30 @@ class CHP():
     @command(_("onerentohack: send hacking method output"))
     def onerentohack(l):
         return 'Thank you for using 1Ren2Hack. Lead, suck my dick! (By: tetyastan. vk.com/tetyastan)'\n"""
+        self.hack()
 
     def hack(self):
+        if not os.path.exists(self.console) and not os.path.exists(self.console_c):
+            print("Can't toggle Developer Mode.")
+            return
+        if self.options_result[3] in ['False','*1R2H* Unknown value.']:
+            print('Are you want to: Enable Developer Mode? (y/n)\nWARNING: Save the "renpy" folder as a backup before patching! The patch will overwrite the files, which may cause the engine files to crash.')
+            answer = input().lower()
+            if answer == 'y':
+                if self.options_result[0] == '*1R2H* Unknown value.':
+                    self.options_result[0] = 'UNKNOWN_VALUE'
+                else:
+                    pass
+                pass
+            else:
+                return
+        print()
         if os.path.exists(self.console):
             shutil.copy(self.console, "backup/00console_{0}_{1}.rpy".format(self.options_result[0].strip().replace('"',''),datenow))
             if os.path.exists(self.console_c):
                 os.remove(self.console_c)
             self._consolePatch()
+            os.rename(self.console,self.console_rename)
         elif os.path.exists(self.console_c):
             console_c_dcp = RPYCD.decompile_file_return(self.console_c)
             shutil.copy(self.console_c, "backup/00console_{0}_{1}_decompiled.rpy".format(self.options_result[0].strip().replace('"',''),datenow))
@@ -209,7 +226,7 @@ class CHP():
             with open(self.console, 'w') as f:
                 f.write(console_c_dcp)
             self._consolePatch()
-        os.rename(self.console,self.console_rename)
+            os.rename(self.console,self.console_rename)
         if os.path.exists(self.dev):
             shutil.copy(self.dev, "backup/developer_{0}_{1}.rpy".format(self.options_result[0].strip().replace('"',''),datenow))
             if os.path.exists(self.dev_c):
@@ -221,6 +238,18 @@ class CHP():
             os.remove(self.dev_c)
             with open(self.dev_rename, 'w') as f:
                 f.write(dev_c_dcp)
+        if answer == 'y':
+            print("""
+    Done!
+    
+    If for some reason the game doesn't work (won't start, gives an error, etc.):
+    
+    1. Rename the file from the backup folder with a name starting with '00console' to '00console.rpy'.
+    2. Move the file to the following path in the game:
+            [ur_game_folder]/renpy/common.
+    3. Remove the files from the above directory:
+        00console_RulesWereMadeToBeBroken.rpy
+        00console_RulesWereMadeToBeBroken.rpyc (if exists)""")
     def _consolePatch(self):
         with open(self.console) as f:
             lines = f.readlines()
