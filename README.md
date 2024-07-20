@@ -20,8 +20,8 @@ BUT if you're the poor guy who lost his MAS save files (which is my friend for w
 
 # Requirements
 
-### Python >= 3.10
-### Tkinter (install on Linux/MacOS)
+   ### Python >= 3.10
+   ### Tkinter (install on Linux/MacOS)
 
 # Guide
 
@@ -29,21 +29,28 @@ BUT if you're the poor guy who lost his MAS save files (which is my friend for w
 
 ### 0. CHP (Console Hacking Patch)
 
-A patch that allows you to hack the console of Developer Mode Ren'Py.
-Once the patch has been completed, go into the game and press Shift+O. If the console opens, the patch is successful!
+   A patch that allows you to hack the console of Developer Mode Ren'Py.
+   Once the patch has been completed, go into the game and press Shift+O. If the console opens, the patch is successful!
 
 ## CLI (Options)
 
 ### 0. Information about novell build (+ CHP Module)
 
-1. Select the path to the root folder of the game (NOT the "game" folder or any other folder).
-2. Get information about the novel! :D
-3. If you want, you can use CHP technology to hack the developer console.
+   1. Select the path to the root folder of the game (NOT the "game" folder or any other folder).
+   2. Get information about the novel! :D
+   3. If you want, you can use CHP technology to hack the developer console.
 
-#### WARNING: Even if the script gives you "Unknown value" in the "DEVELOPER MODE:" field, you can safely use the CHP technology. It will work.
-#### WARNING 2: If "*1R1H* Unknown value." is entered instead of the fields, the script was unable to output information about the selected novel.
+   #### WARNING: Even if the script gives you "Unknown value" in the "DEVELOPER MODE:" field, you can safely use the CHP technology. It will work.
+   #### WARNING 2: If "*1R1H* Unknown value." is entered instead of the fields, the script was unable to output information about the selected novel.
 
 
 # TODO
 
-### Nothing here.
+## CLI (Options)
+
+### 1. Decompile RPYC and/or RPA
+   With the RPYC and/or RPA decompiling option, the user will be able to decompile specific files/folders or all files/folders, or unzip the above from Ren'Py archives. 
+
+### 2. Miscellaneous Tweaks.
+#### 2.1. DDLC: MAS (Save Editor)
+   The MAS save editor will allow the user to change a large number of game parameters.
