@@ -4,7 +4,7 @@ from utils.orth_base import *
 
 while True:
     clear()
-    ui = ['Information about novell build (+ CHP Module)']
+    ui = ['Information about novell build (+ CHP Module)', 'Tweaks']
     func_enum = []
     func_names = []
 
@@ -102,6 +102,17 @@ while True:
         if answer == 'y':
             _answer = True
             _gamedir = gamedir
+            continue
+        else:
+            clear()
+            break
+    
+    if result == '1':
+        print('TEST')
+        wait(1)
+        print('Are you want to return back? (y/n)')
+        answer = input().lower()
+        if answer == 'y':
             continue
         else:
             clear()
