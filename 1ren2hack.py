@@ -16,7 +16,7 @@ while True:
 
     print('Welcome to 1Ren2Hack.')
     print('')
-    result = menu("result", "Select an action item", ["Information about novell build (+ CHP Module)", "Tweaks", "Close 1Ren2Hack"])
+    result = menu("result", "Select an option", ["Information about novell build (+ CHP Module)", "Tweaks", "Close 1Ren2Hack"])
 
     print()
 
@@ -103,7 +103,7 @@ while True:
             break
     
     if result.get("result") == "Tweaks":
-        print(f_firstrun)
+        print("This option doesn't work yet! :(\n")
         wait(1)
         answer = confirm("answer", "Are you want to return back?")
         if answer.get("answer") == "Yes":
