@@ -1,37 +1,33 @@
 ### Main script.
 
 from utils.orth_base import *
+f_firstrun = f"{os.path.dirname(__file__)}/!firstrun"
+
+if not os.path.exists(f_firstrun):
+    with open(f_firstrun, 'w') as fp:
+        pass
+    print('\nFirst run detected.\n\nAttempting installing requirements...')
+    subprocess.run(['pip', 'install', '-r', 'requirements.txt'], check=True)
+    print('Success.')
+    time.sleep(1)
 
 while True:
     clear()
-    ui = ['Information about novell build (+ CHP Module)', 'Tweaks']
-    func_enum = []
-    func_names = []
 
     print('Welcome to 1Ren2Hack.')
     print('')
-    print('Select what you need:')
-
-    for x,i in enumerate(ui):
-        func_enum.append(x)
-        func_names.append(i)
-        print(f'    [{func_enum[x]}] {i}')
-    print()
-    print('    [SMTH ELSE] Exit program')
+    result = menu("result", "Select an action item", ["Information about novell build (+ CHP Module)", "Tweaks", "Close 1Ren2Hack"])
 
     print()
-    result = input()
-    func_enum = str(func_enum)
 
-    if result not in func_enum:
-        clear()
-        exit()
+    if not result:
+        break
 
-    if result == '0':
+    if result.get("result") == "Information about novell build (+ CHP Module)":
         if '_answer' and '_gamedir' in locals():
             if _answer:
-                _answer = input('Do you want to use the last open path? (y/n)\n')
-                if _answer.lower() == 'y':
+                _answer = confirm("_answer", "Do you want to use the last open path?")
+                if _answer.get("_answer") == "Yes":
                     pass
                 else:
                     print('Select path to novell.')
@@ -97,9 +93,8 @@ while True:
         wait(1)
         CHP(gamedir, options_result)
         wait(1)
-        print('Are you want to return back? (y/n)')
-        answer = input().lower()
-        if answer == 'y':
+        answer = confirm("answer", "Are you want to return back?")
+        if answer.get("answer") == "Yes":
             _answer = True
             _gamedir = gamedir
             continue
@@ -107,13 +102,15 @@ while True:
             clear()
             break
     
-    if result == '1':
-        print('TEST')
+    if result.get("result") == "Tweaks":
+        print(f_firstrun)
         wait(1)
-        print('Are you want to return back? (y/n)')
-        answer = input().lower()
-        if answer == 'y':
+        answer = confirm("answer", "Are you want to return back?")
+        if answer.get("answer") == "Yes":
             continue
         else:
             clear()
             break
+    
+    if result.get("result") == "Close 1Ren2Hack":
+        break

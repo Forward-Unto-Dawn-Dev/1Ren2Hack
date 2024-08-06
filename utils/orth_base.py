@@ -16,6 +16,8 @@ import utils.RPYCDecompiler.util as util
 import platform
 import shutil
 import utils.rpatool as rpa
+import inquirer
+import subprocess
 from datetime import datetime as date
 
 RPYC2_HEADER = b"RENPY RPC2"
@@ -260,6 +262,19 @@ class CHP():
                 if re.search('return "Saved slot',line):
                     f.write(self.newcmd)
             f.close()
+
+def menu(key,msg,choices):
+    "Using Inquirer to create a menu."
+    x = inquirer.prompt([inquirer.List(
+                            key,
+                            message=msg,
+                            choices=choices,
+                            )])
+    return x
+
+def confirm(key,msg):
+    x = menu(key, msg, ["Yes", "No"])
+    return x
 
 @contextmanager
 def except_handler(exc_handler):
