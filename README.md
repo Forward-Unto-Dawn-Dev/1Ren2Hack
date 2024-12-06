@@ -22,7 +22,7 @@ BUT if you're the poor guy who lost his MAS save files (which is my friend for w
 
    ### Python >= 3.10
    ### Tkinter (install on Linux/MacOS)
-   #### All other requirements will be set automatically when you run the script for the first time.
+   ### Inquirer
 
 # Guide
 
