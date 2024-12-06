@@ -26,7 +26,7 @@ BUT if you're the poor guy who lost his MAS save files (which is my friend for w
 
 # Guide
 
-## Modules & Techologies
+## Modules & Technologies
 
 ### 0. CHP (Console Hacking Patch)
 
