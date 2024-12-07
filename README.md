@@ -30,10 +30,9 @@ BUT if you're the poor guy who lost his MAS save files (which is my friend for w
 
    1. Select the path to the root folder of the game (NOT the "game" folder or any other folder).
    2. Get information about the novel! :D
-   3. If you want, you can use Console Hack Patch technology to hack the developer console.
+   3. If you want, you can use Console Hack Patch technology to hack the developer console (Shift+O).
 
-   #### WARNING: Even if the script gives you "Unknown value" in the "DEVELOPER MODE:" field, you can safely use the Console Hack Patch technology. It will work.
-   #### WARNING 2: If "*1R1H* Unknown value." is entered instead of the fields, the script was unable to output information about the selected novel.
+   #### WARNING: Even if the script gives you "\*1R2H\* Unknown value" in the "DEVELOPER MODE:" field, you can safely use the Console Hack Patch technology. It will work.
 
 
 # TODO
