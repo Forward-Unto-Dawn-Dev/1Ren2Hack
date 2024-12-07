@@ -1,29 +1,18 @@
 ### Main script.
 
 from utils.orth_base import *
-f_firstrun = f"{os.path.dirname(__file__)}/!firstrun"
-
-if not os.path.exists(f_firstrun):
-    with open(f_firstrun, 'w') as fp:
-        pass
-    print('\nFirst run detected.\n\nAttempting installing requirements...')
-    subprocess.run(['pip', 'install', '-r', 'requirements.txt'], check=True)
-    print('Success.')
-    time.sleep(1)
 
 while True:
     clear()
 
-    print('Welcome to 1Ren2Hack.')
-    print('')
-    result = menu("result", "Select an option", ["Information about novell build (+ CHP Module)", "Tweaks", "Close 1Ren2Hack"])
+    print('Welcome to 1Ren2Hack.\n')
+    result = menu("result", "Select an option", ["Info about novell build (+ Console Hack Patch Module)", "RPYC Decompiler", "RPA Packer/Unpacker", "Saves Editor", "Engine Files Editor", "Close 1Ren2Hack"])
 
     print()
 
-    if not result:
-        break
+    if not result: break
 
-    if result.get("result") == "Information about novell build (+ CHP Module)":
+    if result.get("result") == "Info about novell build (+ Console Hack Patch Module)":
         if '_answer' and '_gamedir' in locals():
             if _answer:
                 _answer = confirm("_answer", "Do you want to use the last open path?")
@@ -37,9 +26,9 @@ while True:
         else:
             print('Select path to novell.')
             gamedir = Path.getpath()
-        if gamedir == '' or gamedir == ():
+        if gamedir in ['', ()]:
             continue
-        Path.checkpath(gamedir)
+        Path.checkpath(gamedir, ['renpy','lib','game'])
         dir_flist = os.listdir(gamedir+'/game/')
         print()
         try:
@@ -51,8 +40,7 @@ while True:
                 try:
                     options = RPYCD.decompile_file_return(gamedir+'/game/options.rpyc')
                 except Exception as e:
-                    with except_handler(err):
-                        raise Exception('(RPYC) Decompile error: {0}'.format(e))
+                    print('(RPYC) Decompile error: {0}'.format(e))
                 options_split = options.splitlines()
                 options_result = VCHECK.opt_check(options_split)
             else:
@@ -69,8 +57,7 @@ while True:
                 try:
                     options = RPYCD.decompile_file_return(fname)
                 except Exception as e:
-                    with except_handler(err):
-                        raise Exception('(RPA + RPYC) Decompile error: {0}'.format(e))
+                    print('(RPA + RPYC) Decompile error: {0}'.format(e))
                 os.remove(fname)
                 options_result = options.splitlines()
                 options_result = VCHECK.opt_check(options_result)
@@ -90,9 +77,7 @@ while True:
         print('----------------------------------------------------------------')
         print()
         print()
-        wait(1)
         CHP(gamedir, options_result)
-        wait(1)
         answer = confirm("answer", "Are you want to return back?")
         if answer.get("answer") == "Yes":
             _answer = True
@@ -101,10 +86,25 @@ while True:
         else:
             clear()
             break
-    
-    if result.get("result") == "Tweaks":
-        print("This option doesn't work yet! :(\n")
-        wait(1)
+
+    if result.get("result") == "RPYC Decompiler":
+        print('Select RPYC file(s).')
+        files_paths = Path.getfile()
+        if files_paths in ['', ()]:
+            continue
+        print('Select directory to extract.')
+        extract_path = Path.getpath()
+        if extract_path in ['', ()]:
+            continue
+        for i in files_paths:
+            if i.split("/")[-1].split(".")[-1] != "rpyc":
+                print(f"!!! Skipped extracting: \"{extract_path}/{i.split("/")[-1]}\". NOT A RPYC FILE.")
+            elif os.path.exists(f"{extract_path}/{i.split("/")[-1].replace("rpyc", "rpy")}"):
+                print(f"!!! Skipped extracting: \"{extract_path}/{i.split("/")[-1]}\". RPY FILE WITH THIS NAME ALREADY EXISTS.")
+            else:
+                print(f"Extracting: \"{extract_path}/{i.split("/")[-1]}\"...")
+                RPYCD.decompile_file(i, extract_path)
+        print("\nDecompiling completed!")
         answer = confirm("answer", "Are you want to return back?")
         if answer.get("answer") == "Yes":
             continue
@@ -113,4 +113,14 @@ while True:
             break
     
     if result.get("result") == "Close 1Ren2Hack":
+        clear()
         break
+
+    else:
+        print("This option is not exists.\n")
+        answer = confirm("answer", "Are you want to return back?")
+        if answer.get("answer") == "Yes":
+            continue
+        else:
+            clear()
+            break

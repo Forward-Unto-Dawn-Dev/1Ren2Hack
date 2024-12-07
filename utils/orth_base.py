@@ -1,8 +1,7 @@
 import os
 import sys
 from contextlib import contextmanager
-import time
-from tkinter.filedialog import askdirectory
+from tkinter.filedialog import askdirectory, askopenfilenames
 from tkinter import *
 import io
 import os
@@ -132,24 +131,25 @@ class RPYCD():
             )
 
 class Path():
+    def getfile():
+        "Creates a window for selecting a file(s). Used in conjunction with a variable to save."
+        window = Tk()
+        window.withdraw()
+        paths = askopenfilenames(parent=window, title='Select file(s)')
+        return paths
     def getpath():
         "Creates a window for selecting a path. Used in conjunction with a variable to save."
         window = Tk()
         window.withdraw()
         path = askdirectory(parent=window, title='Select path')
         return path
-    def checkpath(path):
+    def checkpath(path, needed):
         "Checking the path for engine and novel files."
-        needed = ['renpy','lib','game']
-        dir = path
-        if dir.endswith('game'):
-            with except_handler(err):
-                raise Exception('You selected a "game" directory! Please select a ROOT path (i.e. without "/game").')
-        dir_list = os.listdir(dir)
-        check_needed = set(needed).issubset(dir_list)
-        if not check_needed:
-            with except_handler(err):
-                raise Exception("I can't find the novell in this folder as there is no 'renpy', 'lib' and 'game' folders. So you're either trying to open your Ren'Py project, or this folder is not a novell folder. Try again.")
+        if path.endswith('game'):
+            print("WARN: You selected a \"game\" directory! Please select a ROOT path (i.e. without \"/game\").")
+        for i in needed:
+            if i not in os.listdir(path):
+                print(f"WARN: Can't find engine folder: {i}.")
 
 class VCHECK():
     """
@@ -194,17 +194,17 @@ class CHP():
         self.dev_c = '{0}/renpy/common/_developer/developer.rpymc'.format(gamedir)
         self.options_result = options_result
         self.newcmd = """
-    @command(_("onerentohack: send hacking method output"))
+    @command(_("onerentohack: meet the POWER!"))
     def onerentohack(l):
-        return 'Thank you for using 1Ren2Hack. Lead, suck my dick! (By: tetyastan. vk.com/tetyastan)'\n"""
+        return 'Thank you for using 1Ren2Hack. By: tetyastan. vk.com/tetyastan'\n"""
         self.hack()
 
     def hack(self):
         if not os.path.exists(self.console) and not os.path.exists(self.console_c):
-            print("Can't toggle Developer Mode.")
+            print("Can't use Console Hacking Patch.")
             return
         if self.options_result[3] in ['False','*1R2H* Unknown value.']:
-            print('Are you want to: Enable Developer Mode? (y/n)\nWARNING: Save the "renpy" folder as a backup before patching! The patch will overwrite the files, which may cause the engine files to crash.')
+            print('Are you want to use Console Hacking Patch? (y/n)\nWARNING: Save the "renpy" folder as a backup before patching! The patch will overwrite the files, which may cause the engine files to crash.')
             answer = input().lower()
             if answer == 'y':
                 if self.options_result[0] == '*1R2H* Unknown value.':
@@ -242,7 +242,7 @@ class CHP():
                 f.write(dev_c_dcp)
         if answer == 'y':
             print("""
-    Done!
+    Done! Now you can use Shift+O in this game build to open console.
     
     If for some reason the game doesn't work (won't start, gives an error, etc.):
     
@@ -275,25 +275,6 @@ def menu(key,msg,choices):
 def confirm(key,msg):
     x = menu(key, msg, ["Yes", "No"])
     return x
-
-@contextmanager
-def except_handler(exc_handler):
-    "Modified exception output module handler."
-    sys.excepthook = exc_handler
-    yield
-    sys.excepthook = sys.__excepthook__
-def err(type, value, traceback):
-    "New type of exception."
-    print(': '.join([str(type.__name__), str(value)]))
-    print("~ Oops! I'll leave you with an error, mane. ~")
-    errwait()
-    print("")
-def errwait():
-    "A simple 1-second pause after outputting an error."
-    time.sleep(1)
-def wait(i):
-    "A simple X-second pause."
-    time.sleep(i)
 def clear():
     "Clears the command line."
     if platform.system() == "Windows":
