@@ -90,12 +90,10 @@ while True:
     if result.get("result") == "RPYC Decompiler":
         print('Select RPYC file(s).')
         files_paths = Path.getfile()
-        if files_paths in ['', ()]:
-            continue
+        if files_paths in ['', ()]: continue
         print('Select directory to extract.')
         extract_path = Path.getpath()
-        if extract_path in ['', ()]:
-            continue
+        if extract_path in ['', ()]: continue
         for i in files_paths:
             if i.split("/")[-1].split(".")[-1] != "rpyc":
                 print(f"!!! Skipped extracting: \"{extract_path}/{i.split("/")[-1]}\". NOT A RPYC FILE.")
@@ -111,6 +109,29 @@ while True:
         else:
             clear()
             break
+    
+    if result.get("result") == "RPA Packer/Unpacker":
+        answer = menu("result", "Select RPA (Ren'Py Archive) action type", ["Pack", "Unpack"])
+        if answer.get("result") == "Pack":
+            print('Select files to pack.')
+            files_paths = Path.getfile()
+            if files_paths in ['', ()]: continue
+            print('Select path to extract RPA.')
+            extract_path = Path.getpath()
+            extract_file = f"{extract_path}/{input("Enter name of your RPA: ")}.rpa"
+            if extract_path in ['', ()]: continue
+            if extract_file in ['', ()]: continue
+            for i in files_paths:
+                print(f"Adding: \"{i.split("/")[-1]}\"...")
+                RPAPU(extract_file).add(i.split("/")[-1], i)
+            RPAPU(extract_file).close()
+            print("Packing completed!\n")
+            answer = confirm("answer", "Are you want to return back?")
+            if answer.get("answer") == "Yes":
+                continue
+            else:
+                clear()
+                break
     
     if result.get("result") == "Close 1Ren2Hack":
         clear()

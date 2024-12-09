@@ -1,5 +1,4 @@
 import os
-import sys
 from contextlib import contextmanager
 from tkinter.filedialog import askdirectory, askopenfilenames
 from tkinter import *
@@ -11,12 +10,10 @@ import re
 import struct
 import zlib
 import utils.RPYCDecompiler.ast as ast
-import utils.RPYCDecompiler.util as util
+import utils.RPYCDecompiler.util as rpycd_u
 import platform
 import shutil
-import utils.rpatool as rpa
 import inquirer
-import subprocess
 from datetime import datetime as date
 
 RPYC2_HEADER = b"RENPY RPC2"
@@ -100,7 +97,7 @@ class RPYCD():
                 output_file, os.path.basename(input_file).removesuffix("c")
             )
         stmts = RPYCD.load_file(input_file)
-        code = util.get_code(stmts)
+        code = rpycd_u.get_code(stmts)
         RPYCD.write_file(output_file, code)
 
     def decompile_file_return(input_file, output_file=None):
@@ -113,7 +110,7 @@ class RPYCD():
                 output_file, os.path.basename(input_file).removesuffix("c")
             )
         stmts = RPYCD.load_file(input_file)
-        code = util.get_code(stmts)
+        code = rpycd_u.get_code(stmts)
         return code
 
     def decompile(input_path, output_path=None):
@@ -129,6 +126,90 @@ class RPYCD():
                 os.path.join(input_path, filename),
                 os.path.join(output_path, filename.removesuffix("c")),
             )
+
+# Copyright 2004-2024 Tom Rothamel <pytom@bishoujo.us>
+#
+# Permission is hereby granted, free of charge, to any person
+# obtaining a copy of this software and associated documentation files
+# (the "Software"), to deal in the Software without restriction,
+# including without limitation the rights to use, copy, modify, merge,
+# publish, distribute, sublicense, and/or sell copies of the Software,
+# and to permit persons to whom the Software is furnished to do so,
+# subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+# Ren'Py archiver. This builds a Ren'Py archive file, and the
+# associated index file. These files are really easy to
+# reverse-engineer, but are probably better than nothing.
+
+import zlib
+
+from pickle import dumps, HIGHEST_PROTOCOL
+
+
+class RPAPU(object):
+    """
+    Adds files from disk to a rpa archive.
+    """
+
+    def __init__(self, filename):
+
+        self.python_dict = self._dict = dict
+        self.python_list = self._list = list
+
+        # The archive file.
+        self.f = open(filename, "wb")
+
+        # The index to the file.
+        self.index = self._dict()
+
+        # A fixed key minimizes difference between archive versions.
+        self.key = 0x42424242
+
+        padding = b"RPA-3.0 XXXXXXXXXXXXXXXX XXXXXXXX\n"
+        self.f.write(padding)
+
+    def add(self, name, path):
+        """
+        Adds a file to the archive.
+        """
+
+        self.index[name] = self._list()
+
+        with open(path, "rb") as df:
+            data = df.read()
+            dlen = len(data)
+
+        # Pad.
+        padding = b"Made with Ren'Py."
+        self.f.write(padding)
+
+        offset = self.f.tell()
+
+        self.f.write(data)
+
+        self.index[name].append((offset ^ self.key, dlen ^ self.key, b""))
+
+    def close(self):
+
+        indexoff = self.f.tell()
+
+        self.f.write(zlib.compress(dumps(self.index, HIGHEST_PROTOCOL)))
+
+        self.f.seek(0)
+        self.f.write(b"RPA-3.0 %016x %08x\n" % (indexoff, self.key))
+
+        self.f.close()
 
 class Path():
     def getfile():
