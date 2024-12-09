@@ -12,13 +12,13 @@ ATTENTION, DUDE: I, the creator of this multitool, better known as tetyastan, do
 
 # Requirements
 
-   ### Python >= 3.10
+   ### Python >= 3.12
    ### Tkinter (install on Linux/MacOS)
    ### Inquirer
 
 # Guide
 
-### 0. Info about novell build (+ Console Hack Patch Module)
+### 1. Info about novell build (+ Console Hack Patch Module)
 
    1. Select the path to the root folder of the game (NOT the "game" folder or any other folder).
    2. Get information about the novel! :D
@@ -26,11 +26,13 @@ ATTENTION, DUDE: I, the creator of this multitool, better known as tetyastan, do
 
    #### WARNING: Even if the script gives you "\*1R2H\* Unknown value" in the "DEVELOPER MODE:" field, you can safely use the Console Hack Patch technology. It will work.
 
+### 2. RPYC Decompiler
+
+   1. Select the path to RPYC file(s).
+   2. Select the RPY file(s) extracting path.
 
 # TODO
 
-### 1. Decompile RPYC and RPA
-   With the RPYC and/or RPA decompiling option, the user will be able to decompile specific files/folders or all files/folders, or unzip the above from Ren'Py archives. 
-
-#### 2. DDLC: MAS (Save Editor)
-   The MAS save editor will allow the user to change a large number of game parameters.
+### 1. Pack/Unpack RPA
+### 2. Saves Editor
+### 3. Engine Files Editor
