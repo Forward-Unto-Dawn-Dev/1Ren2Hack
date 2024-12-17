@@ -2,6 +2,8 @@
 
 from utils.orth_base import *
 
+def clear(): os.system('cls' if os.name == 'nt' else 'clear')
+
 while True:
     clear()
 
@@ -47,7 +49,7 @@ while True:
                 for i in dir_flist:
                     if i.endswith('.rpa'):
                         try:
-                            options = rpa.RenPyArchive(gamedir+'/game/'+i).read("options.rpyc")
+                            options = RenPyArchive(gamedir+'/game/'+i).read("options.rpyc")
                         except Exception as e:
                             pass
                 with open("{0}/cache/temp_{1}.rpyc".format(os.path.dirname(__file__),datenow), "wb") as f:
@@ -121,10 +123,24 @@ while True:
             extract_file = f"{extract_path}/{input("Enter name of your RPA: ")}.rpa"
             if extract_path in ['', ()]: continue
             if extract_file in ['', ()]: continue
+            print(f"Creating file (path): \"{extract_file}\"")
+            if not os.path.exists(extract_file):
+                path = '/'.join(extract_file.split("/")[:-1])
+                if not os.path.exists(path):
+                    os.mkdir(path)
+                os.system(f"python utils/rpatool.py -c {extract_file}")
+            else:
+                print(f"Error: RPA with this name is already exists.")
+                answer = confirm("answer", "Are you want to return back?")
+                if answer.get("answer") == "Yes":
+                    continue
+                else:
+                    clear()
+                    break
             for i in files_paths:
                 print(f"Adding: \"{i.split("/")[-1]}\"...")
-                RPAPU(extract_file).add(i.split("/")[-1], i)
-            RPAPU(extract_file).close()
+                #RenPyArchive(file=extract_file).add(i.split("/")[-1], i)
+                os.system(f"python utils/rpatool.py -a {extract_file} {i}")
             print("Packing completed!\n")
             answer = confirm("answer", "Are you want to return back?")
             if answer.get("answer") == "Yes":
