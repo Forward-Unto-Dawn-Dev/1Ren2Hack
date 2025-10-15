@@ -98,11 +98,11 @@ while True:
         if extract_path in ['', ()]: continue
         for i in files_paths:
             if i.split("/")[-1].split(".")[-1] != "rpyc":
-                print(f"!!! Skipped extracting: \"{extract_path}/{i.split("/")[-1]}\". NOT A RPYC FILE.")
-            elif os.path.exists(f"{extract_path}/{i.split("/")[-1].replace("rpyc", "rpy")}"):
-                print(f"!!! Skipped extracting: \"{extract_path}/{i.split("/")[-1]}\". RPY FILE WITH THIS NAME ALREADY EXISTS.")
+                print(f"!!! Skipped extracting: \"{extract_path}/{i.split('/')[-1]}\". NOT A RPYC FILE.")
+            elif os.path.exists(f"{extract_path}/{i.split('/')[-1].replace('rpyc', 'rpy')}"):
+                print(f"!!! Skipped extracting: \"{extract_path}/{i.split('/')[-1]}\". RPY FILE WITH THIS NAME ALREADY EXISTS.")
             else:
-                print(f"Extracting: \"{extract_path}/{i.split("/")[-1]}\"...")
+                print(f"Extracting: \"{extract_path}/{i.split('/')[-1]}\"...")
                 RPYCD.decompile_file(i, extract_path)
         print("\nDecompiling completed!")
         answer = confirm("answer", "Are you want to return back?")
@@ -120,7 +120,7 @@ while True:
             if files_paths in ['', ()]: continue
             print('Select path to extract RPA.')
             extract_path = Path.getpath()
-            extract_file = f"{extract_path}/{input("Enter name of your RPA: ")}.rpa"
+            extract_file = f"{extract_path}/{input('Enter name of your RPA: ')}.rpa"
             if extract_path in ['', ()]: continue
             if extract_file in ['', ()]: continue
             print(f"Creating file (path): \"{extract_file}\"")
@@ -138,10 +138,10 @@ while True:
                     clear()
                     break
             for i in files_paths:
-                print(f"Adding: \"{i.split("/")[-1]}\"...")
+                print(f"Adding: \"{i.split('/')[-1]}\"...")
                 #RenPyArchive(file=extract_file).add(i.split("/")[-1], i)
                 os.system(f"python utils/rpatool.py -a {extract_file} {i}")
-            print("Packing completed!\n")
+            print("Packing completed!")
             answer = confirm("answer", "Are you want to return back?")
             if answer.get("answer") == "Yes":
                 continue
